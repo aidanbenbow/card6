@@ -4,7 +4,7 @@ export class GameOverlay{
     constructor(){
        
         this.image = document.querySelector('#letters');
-        this.time = 1
+        this.time = 10
         this.timeTimer = 0
        
     }
@@ -35,10 +35,16 @@ export class GameOverlay{
         }
     }
 
-    drawScoreLabel(context, label, x){
-       for (const index in label) {   
-        this.drawFrame(context, `score-${label.charAt(index)}`, x+index*35, 100)
-       }
+    drawScoreLabel(context, x){
+        
+           
+        context.save()
+        context.font = "100px Arial";
+            context.color = "white"
+            context.fillText(`${player.value}`, x, 150)    
+              context.restore()
+        
+       
     }
 
     drawScores(context){
@@ -47,6 +53,7 @@ export class GameOverlay{
 
     draw(context){
         this.drawTime(context)
+        this.drawScoreLabel(context, 500)
         this.drawScores(context)
     }
 

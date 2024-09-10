@@ -13,6 +13,7 @@ export class GameScene{
     constructor(){
        
         this.bg = document.querySelector('#scene1');
+        this.startbtn = document.querySelector('#stbtn');
         this.start = new StartGame()
         this.card = new Card()
         this.smoke = new SmokePuff()
@@ -30,20 +31,15 @@ this.order = 0
             
         ]
 
-        addEventListener('click', ()=>{
-            this.entities.splice(1,1)
-          this.entities.push(this.smoke)
-          this.card.frameY = 0
-          this.entities.push(this.overlay)
-
-          for (let i = 0; i < cardName[this.cardOrder].length; i++) {
-            this.tiles.push(new Tiles([630+109*i,740]))
-            
-          }
+        this.startbtn.addEventListener('click', ()=>{
+          this.startGame()
 
          
+       
+        },{once:true})
 
-          addEventListener('keydown', (e)=>{
+        
+        gameinput.addEventListener('keydown', (e)=>{
             e.preventDefault();
             const [dx,dy] = keys.get(e.key)
                    
@@ -57,31 +53,23 @@ this.order = 0
             this.order++
             
         })
-       
-        },{once:true})
-
-        
 
     }
 
-    updateEntities(context){
-               this.timer++
-               if(this.timer===100){
-                
-                this.entities.push(this.puff)
-               
-               } else if(this.timer===140){
-                this.entities.push(this.card1)
-               }else if(this.timer===150){
-                const index = this.entities.indexOf(this.puff)
-    
-    this.entities.splice(index,1)
-    
-               } else if(this.timer===152) {
-                this.entities.push(this.tiles)
-                
-               }
+    startGame(){
+        this.entities.splice(1,1)
+        this.entities.push(this.smoke)
+        this.card.frameY = 0
+        this.entities.push(this.overlay)
 
+        for (let i = 0; i < cardName[this.cardOrder].length; i++) {
+          this.tiles.push(new Tiles([630+109*i,740]))
+          
+        }
+        
+           start.style.display='none'
+           gameinput.style.display='block'
+           
     }
 
 
@@ -113,8 +101,8 @@ for (const tile of this.tiles) {
         setTimeout(()=>{
           if(this.cardOrder<9) {this.reset()
         } else{
-          //  this.gameover(context)
-          context.fillText('score', 10, 610);   
+           this.gameover(context)
+        
         }
         },1000)
 
@@ -124,12 +112,10 @@ for (const tile of this.tiles) {
     }
 gameover(context){
     console.log(context)
-    context.font = "30px Arial";
-    context.fillText('score', 10, 610);     
-    context.save()
-        context.color = "white"
-          context.fillText('score', 10, 610);      
-          context.restore()
+    gameinput.style.display='none'
+    finish.style.display='block'
+    playername.value = `${player.value}`
+    playerscore.value = `${gameState.score}`
 }
 
     reset(){
@@ -148,7 +134,7 @@ gameover(context){
         for (let i = 0; i < cardName[this.cardOrder].length; i++) {
             this.tiles.push(new Tiles([630+109*i,740]))
           }
-          this.overlay.time = 1
+          this.overlay.time = 10
           this.order = 0
           this.checked=false
     }
