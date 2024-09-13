@@ -35,8 +35,8 @@ html,
 
 			#start{
 				position: absolute;
-				top: 0;
-				left: 0;
+				top: 50%;
+				left: 50%;
 				width: 2rem;
 				height: 1rem;
 			}
@@ -46,22 +46,22 @@ html,
 			#finish{
 				display: none;
 				position: absolute;
-				top: 0;
-				left: 0;
+				top: 50%;
+				left: 50%;
 				width: 2rem;
 				height: 1rem;
 			}
 
 			#gameinput{
+				position: absolute;
 				display: none;
-				width: 20rem;
-				height: 10rem;
-				opacity: 0%;
+				top: 70%;
+				left: 30%;
+				width: 2rem;
+				height: 1rem;
+				z-index: 10;
 			}
 
-			#game{
-				width: 100%;
-				height: 100%;
-			}
+			
 
 			

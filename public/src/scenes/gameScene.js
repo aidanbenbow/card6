@@ -39,21 +39,49 @@ this.order = 0
         },{once:true})
 
         
-        gameinput.addEventListener('keydown', (e)=>{
-            e.preventDefault();
-            const [dx,dy] = keys.get(e.key)
+        // gameinput.addEventListener('input', (e)=>{
+        //     e.preventDefault();
+        //     const [dx,dy] = keys.get(e.key)
                    
-            this.length = cardName[this.cardOrder].length
+        //     this.length = cardName[this.cardOrder].length
        
-        if(this.order<this.length){
-            this.tiles[this.order].frameX=dx
-            this.tiles[this.order].frameY=dy
-            this.entered.push(e.key)
-          }     
-            this.order++
+        // if(this.order<this.length){
+        //     this.tiles[this.order].frameX=dx
+        //     this.tiles[this.order].frameY=dy
+        //     this.entered.push(e.key)
+        //   }     
+        //     this.order++
+            
+        // })
+
+        checkbtn.addEventListener('click', (e)=>{
+            e.preventDefault();
+            
+
+            for (let i = 0; i < game.value.length; i++) {
+                const [dx,dy] = keys.get(game.value[i])
+                this.tiles[i].frameX=dx
+            this.tiles[i].frameY=dy
+           this.entered.push(game.value[i])
+                
+            }
+
+        //     const [dx,dy] = keys.get(e.key)
+                   
+        //     this.length = cardName[this.cardOrder].length
+       
+        // if(this.order<this.length){
+        //     this.tiles[this.order].frameX=dx
+        //     this.tiles[this.order].frameY=dy
+        //     this.entered.push(e.key)
+        //   }     
+        //     this.order++
             
         })
 
+    }
+    change(){
+        console.log('hi')
     }
 
     startGame(){
@@ -95,6 +123,7 @@ for (const tile of this.tiles) {
         }
 
         if(this.overlay.time === 0 && !this.checked) {
+            console.log(cardName[this.cardOrder], this.entered, this.tiles)
             check(cardName[this.cardOrder], this.entered, this.tiles)
         this.checked=true
        
@@ -111,7 +140,7 @@ for (const tile of this.tiles) {
 
     }
 gameover(context){
-    console.log(context)
+   
     gameinput.style.display='none'
     finish.style.display='block'
     playername.value = `${player.value}`
@@ -130,6 +159,7 @@ gameover(context){
         
         this.tiles = []
         this.entered = []
+        game.value = []
        
         for (let i = 0; i < cardName[this.cardOrder].length; i++) {
             this.tiles.push(new Tiles([630+109*i,740]))
