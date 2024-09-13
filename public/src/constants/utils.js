@@ -12,3 +12,9 @@ export function check(name, entered, tiles ){
         }
       }
 }
+
+export async function getData(){
+    const res = await fetch('api')
+    const dat = await res.json()
+    return dat
+}

@@ -2,7 +2,7 @@
 import { SmokePuff } from "../animations/smokePuff.js";
 import { StartGame } from "../animations/startGame.js";
 import { cardName, gameState, keys } from "../constants/constant.js";
-import { check } from "../constants/utils.js";
+import { check, getData } from "../constants/utils.js";
 import { Card } from "../entities/card.js";
 import { Tiles } from "../entities/tiles.js";
 import { GameOverlay } from "../overlays.js/gameOverlay.js";
@@ -12,6 +12,21 @@ import { GameOverlay } from "../overlays.js/gameOverlay.js";
 export class GameScene{
     constructor(){
        
+       getData().then(res=>{
+        console.log(res)
+        return res
+    }).then(data=>{
+        console.log(data[0])
+        let pl1 = data[0]
+        let pl2 = data[1]
+        let pl3 = data[2]
+       nameone.innerHTML = pl1.name
+       scoreone.innerHTML = pl1.score
+       nametwo.innerHTML = pl2.name
+       scoretwo.innerHTML = pl2.score
+       namethree.innerHTML = pl3.name
+       scorethree.innerHTML = pl3.score
+    })
         this.bg = document.querySelector('#scene1');
         this.startbtn = document.querySelector('#stbtn');
         this.start = new StartGame()
@@ -25,6 +40,8 @@ export class GameScene{
 this.order = 0
         this.timer = 0
 
+        
+
         this.entities = [
             this.card,
             this.start,
@@ -33,10 +50,29 @@ this.order = 0
 
         this.startbtn.addEventListener('click', ()=>{
           this.startGame()
-
-         
-       
+          console.log(this.scores)
         },{once:true})
+
+        savebtn.addEventListener('click', ()=>{
+let name = player.value
+let score = gameState.score
+
+          let data = {
+           name ,
+            score
+          }  
+
+          const options = {
+            method: 'POST',
+            headers:{
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }
+
+          fetch('/api', options)
+  
+          },{once:true})
 
         
         // gameinput.addEventListener('input', (e)=>{
@@ -155,7 +191,7 @@ gameover(context){
             this.card.frameY = 1
             this.card.frameX = this.cardOrder-5
         }
-        console.log(this.cardOrder,this.card.frameX)
+        
         
         this.tiles = []
         this.entered = []
@@ -164,7 +200,7 @@ gameover(context){
         for (let i = 0; i < cardName[this.cardOrder].length; i++) {
             this.tiles.push(new Tiles([630+109*i,740]))
           }
-          this.overlay.time = 10
+          this.overlay.time = 1
           this.order = 0
           this.checked=false
     }
